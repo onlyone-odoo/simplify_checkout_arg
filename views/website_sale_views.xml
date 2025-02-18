@@ -15,27 +15,41 @@
 
     <!-- Heredar la plantilla de dirección (website_sale.address) para establecer valores por defecto -->
     <template id="simplify_address_defaults" inherit_id="website_sale.address">
-        <!-- Establecer ciudad (city) por defecto como "Bahía Blanca" -->
-        <xpath expr="//input[@name='city']" position="attributes">
+        <!-- Establecer ciudad (city) por defecto como "Bahía Blanca" Dejo esto opcional para quien lo necesite-->
+        <!--xpath expr="//input[@name='city']" position="attributes">
             <attribute name="t-att-value">('city' in checkout and checkout['city']) or 'Bahía Blanca'</attribute>
+        </xpath-->
+
+        <!-- Establecer país (country_id) por defecto como Argentina (ajusta el ID, por ejemplo, 10) -->
+        <xpath expr="//select[@name='country_id']" position="inside">
+            <t t-set="default_country_id" t-value="10"/> <!-- Ajusta el ID de Argentina -->
+            <attribute name="t-att-value">('country_id' in checkout and checkout['country_id']) or default_country_id</attribute>
+            <t t-set="selected_country" t-value="('country_id' in checkout and checkout['country_id']) or default_country_id"/>
+            <t t-foreach="countries" t-as="c">
+                <option t-att-value="c.id" t-att-selected="c.id == selected_country">
+                    <t t-esc="c.name"/>
+                </option>
+            </t>
         </xpath>
 
-        <!-- Establecer país (country_id) por defecto como Argentina (asumiendo que Argentina tiene un ID específico, por ejemplo, 10 en Odoo) -->
-        <xpath expr="//select[@name='country_id']" position="attributes">
-            <attribute name="t-att-value">('country_id' in checkout and checkout['country_id']) or '10'</attribute>
+        <!-- Establecer estado/provincia (state_id) por defecto como Buenos Aires (ajusta el ID, por ejemplo, 554) -->
+        <xpath expr="//select[@name='state_id']" position="inside">
+            <t t-set="default_state_id" t-value="554"/> <!-- Ajusta el ID de Buenos Aires -->
+            <attribute name="t-att-value">('state_id' in checkout and checkout['state_id']) or default_state_id</attribute>
+            <t t-set="selected_state" t-value="('state_id' in checkout and checkout['state_id']) or default_state_id"/>
+            <t t-foreach="country_states" t-as="s">
+                <option t-att-value="s.id" t-att-selected="s.id == selected_state">
+                    <t t-esc="s.name"/>
+                </option>
+            </t>
         </xpath>
 
-        <!-- Establecer código postal (zip) por defecto como "8000" -->
-        <xpath expr="//input[@name='zip']" position="attributes">
-            <attribute name="t-att-value">('zip' in checkout and checkout['zip']) or '8000'</attribute>
+        <!-- Ocultar el campo street2 si no es necesario (opcional, ajusta según tu necesidad) -->
+        <xpath expr="//input[@name='street2']" position="attributes">
+            <attribute name="style">display: none;</attribute>
         </xpath>
 
-        <!-- Establecer estado/provincia (state_id) por defecto como Buenos Aires (ID 554) -->
-        <xpath expr="//select[@name='state_id']" position="attributes">
-            <attribute name="t-att-value">('state_id' in checkout and checkout['state_id']) or '554'</attribute>
-        </xpath>
-
-        <!-- Ocultar el campo VAT si no es necesario (opcional, dependiendo de si quieres evitar VAT explícitamente) -->
+        <!-- Ocultar el campo company_name si no es necesario (opcional, ajusta según tu necesidad) -->
         <xpath expr="//input[@name='company_name']" position="attributes">
             <attribute name="style">display: none;</attribute>
         </xpath>
@@ -44,17 +58,29 @@
     <!-- Heredar la plantilla Argentina para Responsabilidad AFIP y Tipo de Identificación -->
     <template id="simplify_ar_partner_info_defaults" inherit_id="l10n_ar_website_sale.partner_info">
         <!-- Establecer Responsabilidad AFIP por defecto como "Consumidor Final" -->
-        <!-- Necesitamos saber el ID de "Consumidor Final" en tu sistema. Supongamos que es 5 (ajusta según tu configuración) -->
-        <xpath expr="//select[@name='l10n_ar_afip_responsibility_type_id']" position="attributes">
-            <attribute name="t-att-value">('l10n_ar_afip_responsibility_type_id' in checkout and checkout['l10n_ar_afip_responsibility_type_id']) or '5'</attribute>
+        <!-- Ajusta el ID de "Consumidor Final" (por ejemplo, 5) -->
+        <xpath expr="//select[@name='l10n_ar_afip_responsibility_type_id']" position="inside">
+            <t t-set="default_responsibility_id" t-value="5"/> <!-- Ajusta el ID de "Consumidor Final" -->
+            <attribute name="t-att-value">('l10n_ar_afip_responsibility_type_id' in checkout and checkout['l10n_ar_afip_responsibility_type_id']) or default_responsibility_id</attribute>
+            <t t-set="selected_responsibility" t-value="('l10n_ar_afip_responsibility_type_id' in checkout and checkout['l10n_ar_afip_responsibility_type_id']) or default_responsibility_id"/>
+            <t t-foreach="responsibility_types or []" t-as="resp_type">
+                <option t-att-value="resp_type.id" t-att-selected="resp_type.id == selected_responsibility">
+                    <t t-esc="resp_type.name"/>
+                </option>
+            </t>
         </xpath>
 
         <!-- Establecer Tipo de Identificación por defecto como "DNI" -->
-        <!-- Necesitamos saber el ID de "DNI" en tu sistema. Supongamos que es 5 (ajusta según tu configuración) -->
-        <xpath expr="//select[@name='l10n_latam_identification_type_id']" position="attributes">
-            <attribute name="t-att-value">('l10n_latam_identification_type_id' in checkout and checkout['l10n_latam_identification_type_id']) or '5'</attribute>
+        <!-- Ajusta el ID de "DNI" (por ejemplo, 5) -->
+        <xpath expr="//select[@name='l10n_latam_identification_type_id']" position="inside">
+            <t t-set="default_identification_id" t-value="5"/> <!-- Ajusta el ID de "DNI" -->
+            <attribute name="t-att-value">('l10n_latam_identification_type_id' in checkout and checkout['l10n_latam_identification_type_id']) or default_identification_id</attribute>
+            <t t-set="selected_identification" t-value="('l10n_latam_identification_type_id' in checkout and checkout['l10n_latam_identification_type_id']) or default_identification_id"/>
+            <t t-foreach="identification_types or []" t-as="id_type">
+                <option t-att-value="id_type.id" t-att-selected="id_type.id == selected_identification">
+                    <t t-esc="id_type.name"/>
+                </option>
+            </t>
         </xpath>
     </template>
-
-
 </odoo>
