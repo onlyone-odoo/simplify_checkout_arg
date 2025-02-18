@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Heredar la plantilla de totales del carrito -->
+    <template id="simplify_cart_total" inherit_id="website_sale.total">
+        <!-- Ocultar el subtotal (order_total_untaxed) -->
+        <xpath expr="//tr[@id='order_total_untaxed']" position="attributes">
+            <attribute name="style">display: none;</attribute>
+        </xpath>
+
+        <!-- Ocultar los impuestos (order_total_taxes) -->
+        <xpath expr="//tr[@id='order_total_taxes']" position="attributes">
+            <attribute name="style">display: none;</attribute>
+        </xpath>
+    </template>
+
+    <!-- Heredar la plantilla de dirección (website_sale.address) para establecer valores por defecto -->
+    <template id="simplify_address_defaults" inherit_id="website_sale.address">
+        <!-- Establecer ciudad (city) por defecto como "Bahía Blanca" -->
+        <xpath expr="//input[@name='city']" position="attributes">
+            <attribute name="t-att-value">('city' in checkout and checkout['city']) or 'Bahía Blanca'</attribute>
+        </xpath>
+
+        <!-- Establecer país (country_id) por defecto como Argentina (asumiendo que Argentina tiene un ID específico, por ejemplo, 10 en Odoo) -->
+        <xpath expr="//select[@name='country_id']" position="attributes">
+            <attribute name="t-att-value">('country_id' in checkout and checkout['country_id']) or '10'</attribute>
+        </xpath>
+
+        <!-- Establecer código postal (zip) por defecto como "8000" -->
+        <xpath expr="//input[@name='zip']" position="attributes">
+            <attribute name="t-att-value">('zip' in checkout and checkout['zip']) or '8000'</attribute>
+        </xpath>
+
+        <!-- Establecer estado/provincia (state_id) por defecto como Buenos Aires (ID 554) -->
+        <xpath expr="//select[@name='state_id']" position="attributes">
+            <attribute name="t-att-value">('state_id' in checkout and checkout['state_id']) or '554'</attribute>
+        </xpath>
+
+        <!-- Ocultar el campo VAT si no es necesario (opcional, dependiendo de si quieres evitar VAT explícitamente) -->
+        <xpath expr="//input[@name='company_name']" position="attributes">
+            <attribute name="style">display: none;</attribute>
+        </xpath>
+    </template>
+
+    <!-- Heredar la plantilla Argentina para Responsabilidad AFIP y Tipo de Identificación -->
+    <template id="simplify_ar_partner_info_defaults" inherit_id="l10n_ar_website_sale.partner_info">
+        <!-- Establecer Responsabilidad AFIP por defecto como "Consumidor Final" -->
+        <!-- Necesitamos saber el ID de "Consumidor Final" en tu sistema. Supongamos que es 5 (ajusta según tu configuración) -->
+        <xpath expr="//select[@name='l10n_ar_afip_responsibility_type_id']" position="attributes">
+            <attribute name="t-att-value">('l10n_ar_afip_responsibility_type_id' in checkout and checkout['l10n_ar_afip_responsibility_type_id']) or '5'</attribute>
+        </xpath>
+
+        <!-- Establecer Tipo de Identificación por defecto como "DNI" -->
+        <!-- Necesitamos saber el ID de "DNI" en tu sistema. Supongamos que es 5 (ajusta según tu configuración) -->
+        <xpath expr="//select[@name='l10n_latam_identification_type_id']" position="attributes">
+            <attribute name="t-att-value">('l10n_latam_identification_type_id' in checkout and checkout['l10n_latam_identification_type_id']) or '5'</attribute>
+        </xpath>
+    </template>
+
+
+</odoo>
