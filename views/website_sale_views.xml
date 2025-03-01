@@ -13,12 +13,15 @@
         </xpath>
     </template>
 
+    <template id="simplify_payment_submit_button" inherit_id="payment.submit_button">
+        <!-- cambiar label -->
+        <xpath expr="//button[@name='o_payment_submit_button']" position="before">
+            <t t-set="submit_button_label">Confirmar pedido</t>
+        </xpath>
+    </template>
+
     <!-- Heredar la plantilla de dirección (website_sale.address) para establecer valores por defecto -->
     <template id="simplify_address_defaults" inherit_id="website_sale.address">
-        <!-- Establecer ciudad (city) por defecto como "Bahía Blanca" Dejo esto opcional para quien lo necesite-->
-        <!--xpath expr="//input[@name='city']" position="attributes">
-            <attribute name="t-att-value">('city' in checkout and checkout['city']) or 'Bahía Blanca'</attribute>
-        </xpath-->
 
         <!-- Establecer país (country_id) por defecto como Argentina (ajusta el ID, por ejemplo, 10) -->
         <xpath expr="//select[@name='country_id']" position="inside">
