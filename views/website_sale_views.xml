@@ -13,16 +13,9 @@
         </xpath>
     </template>
 
-    <template id="simplify_payment_submit_button" inherit_id="payment.submit_button">
-        <!-- cambiar label -->
-        <xpath expr="//button[@name='o_payment_submit_button']" position="before">
-            <t t-set="submit_button_label">Confirmar pedido</t>
-        </xpath>
-    </template>
-
     <!-- Heredar la plantilla de dirección (website_sale.address) para establecer valores por defecto -->
     <template id="simplify_address_defaults" inherit_id="website_sale.address">
-
+    
         <!-- Establecer país (country_id) por defecto como Argentina (ajusta el ID, por ejemplo, 10) -->
         <xpath expr="//select[@name='country_id']" position="inside">
             <t t-set="default_country_id" t-value="10"/> <!-- Ajusta el ID de Argentina -->
@@ -55,6 +48,13 @@
         <!-- Ocultar el campo company_name si no es necesario (opcional, ajusta según tu necesidad) -->
         <xpath expr="//input[@name='company_name']" position="attributes">
             <attribute name="style">display: none;</attribute>
+        </xpath>
+    </template>
+    
+    <template id="simplify_payment_submit_button" inherit_id="payment.submit_button">
+        <!-- cambiar label -->
+        <xpath expr="//button[@name='o_payment_submit_button']" position="before">
+            <t t-set="submit_button_label">Confirmar pedido</t>
         </xpath>
     </template>
 
