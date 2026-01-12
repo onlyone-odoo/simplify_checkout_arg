@@ -71,10 +71,6 @@
         <xpath expr="//input[@name='email']" position="attributes">
             <attribute name="t-att-value">('email' in checkout and checkout['email']) or 'ejemplo@ejemplo.com'</attribute>
         </xpath>
-        <!-- Hide "Ship to same address" checkbox if present (note: may not exist in this template; safe xpath) -->
-        <xpath expr="//div[contains(@class, 'form-check') and .//input[@name='use_same']]" position="attributes">
-            <attribute name="style">display: none;</attribute>
-        </xpath>
     </template>
     <!-- Change payment submit button label -->
     <template id="simplify_payment_submit_button" inherit_id="payment.submit_button">
