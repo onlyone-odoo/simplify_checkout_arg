@@ -24,9 +24,6 @@
                 </option>
             </t>
         </xpath>
-        <xpath expr="//div[label[@for='country_id']]" position="attributes">
-            <attribute name="style">display: none;</attribute> <!-- Hide country -->
-        </xpath>
 
         <!-- Set default state as Buenos Aires (ID: 554) - inject options, hide div -->
         <xpath expr="//select[@name='state_id']" position="inside">
@@ -38,42 +35,28 @@
                 </option>
             </t>
         </xpath>
-        <xpath expr="//div[label[@for='state_id']]" position="attributes">
-            <attribute name="style">display: none;</attribute> <!-- Hide state -->
-        </xpath>
-
-        <!-- Hide street2 -->
-        <xpath expr="//div[label[@for='street2']]" position="attributes">
-            <attribute name="style">display: none;</attribute>
-        </xpath>
 
         <!-- Hide company_name (if B2B) -->
         <xpath expr="//div[label[@for='company_name']]" position="attributes">
             <attribute name="style">display: none;</attribute>
         </xpath>
 
-        <!-- Set default VAT: 12345678, hide div -->
+        <!-- Set default VAT: 12345678,-->
         <xpath expr="//input[@name='vat']" position="attributes">
             <attribute name="t-att-value">('vat' in checkout and checkout['vat']) or '12345678'</attribute>
-        </xpath>
-        <xpath expr="//div[label[@for='vat']]" position="attributes">
-            <attribute name="style">display: none;</attribute> <!-- Hide vat -->
         </xpath>
 
         <!-- Set default street: ejemplo 1234, hide div -->
         <xpath expr="//input[@name='street']" position="attributes">
             <attribute name="t-att-value">('street' in checkout and checkout['street']) or 'ejemplo 1234'</attribute>
         </xpath>
-        <xpath expr="//div[label[@for='street']]" position="attributes">
+        <xpath expr="//div[label[@for='street2']]" position="attributes">
             <attribute name="style">display: none;</attribute> <!-- Hide street -->
         </xpath>
 
         <!-- Set default city: Bahía Blanca, hide div -->
         <xpath expr="//input[@name='city']" position="attributes">
-            <attribute name="t-att-value">('city' in checkout and checkout['city']) or 'Bahía Blanca'</attribute>
-        </xpath>
-        <xpath expr="//div[label[@for='city']]" position="attributes">
-            <attribute name="style">display: none;</attribute> <!-- Hide city -->
+            <attribute name="t-att-value">('city' in checkout and checkout['city']) or 'CABA'</attribute>
         </xpath>
 
         <!-- Set default zip: 8000 - replace in first block -->
@@ -86,11 +69,6 @@
             <input type="text" name="zip" t-attf-class="form-control #{error.get('zip') and 'is-invalid' or ''}" t-att-value="('zip' in checkout and checkout['zip']) or '8000'"/>
         </xpath>
 
-        <!-- Hide zip -->
-        <xpath expr="//div[label[@for='zip']]" position="attributes">
-            <attribute name="style">display: none;</attribute>
-        </xpath>
-
         <!-- Set default email: ejemplo@ejemplo.com (visible) -->
         <xpath expr="//input[@name='email']" position="attributes">
             <attribute name="t-att-value">('email' in checkout and checkout['email']) or 'ejemplo@ejemplo.com'</attribute>
@@ -101,29 +79,12 @@
             <attribute name="style">display: none;</attribute>
         </xpath>
 
-        <!-- Optional white overlay to cover everything below phone - fixed height to not cover buttons -->
-        <xpath expr="//div[label[@for='phone']]" position="after">
-            <div style="position: relative; height: 1px;">
-                <div style="position: absolute; top: 0; left: 0; width: 100%; height: 250px; background: white; z-index: 10;">
-                    <!-- Default height for PC -->
-                    <style>
-                        @media (max-width: 990px) {
-                            .overlay-minimal { height: 330px !important; }
-                        }
-                        @media (max-width: 768px) {
-                            .overlay-minimal { height: 630px !important; }
-                        }
-                    </style>
-                    <div class="overlay-minimal" style="position: absolute; top: 0; left: 0; width: 100%; height: 250px; background: white; z-index: 10;"></div>
-                </div>
-            </div>
-        </xpath>
     </template>
 
     <!-- Change payment submit button label -->
     <template id="simplify_payment_submit_button" inherit_id="payment.submit_button">
         <xpath expr="//button[@name='o_payment_submit_button']" position="before">
-            <t t-set="submit_button_label">Confirmar pedido</t>
+            <t t-set="submit_button_label">Confirmar reserva</t>
         </xpath>
     </template>
 
@@ -139,9 +100,7 @@
                 </option>
             </t>
         </xpath>
-        <xpath expr="//div[label[@for='l10n_ar_afip_responsibility_type_id']]" position="attributes">
-            <attribute name="style">display: none;</attribute> <!-- Hide AFIP -->
-        </xpath>
+
 
         <!-- Set default ID Type "DNI" (ID: 5) - inject, hide div -->
         <xpath expr="//select[@name='l10n_latam_identification_type_id']" position="inside">
@@ -153,9 +112,7 @@
                 </option>
             </t>
         </xpath>
-        <xpath expr="//div[label[@for='l10n_latam_identification_type_id']]" position="attributes">
-            <attribute name="style">display: none;</attribute> <!-- Hide ID type -->
-        </xpath>
+
     </template>
         <!-- Inherit coupon form: hide the entire form -->
     <template id="simplify_coupon_form" inherit_id="website_sale.coupon_form">
