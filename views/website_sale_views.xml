@@ -37,9 +37,13 @@
         </xpath>
 
         <!-- Hide company_name (if B2B) -->
-        <xpath expr="//div[label[@for='company_name']]" position="attributes">
-            <attribute name="style">display: none;</attribute>
+        <!-- Inherited view to simplify address defaults for AR checkout -->
+
+        <xpath expr="//div[label[@for='company_name']]">
+            <!-- Your custom changes, e.g., add invisible="1" or whatever simplification -->
+            <attribute name="t-if">False</attribute>  <!-- Or your logic -->
         </xpath>
+
 
         <!-- Set default VAT: 12345678,-->
         <xpath expr="//input[@name='vat']" position="attributes">
