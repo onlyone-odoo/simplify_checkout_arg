@@ -1,0 +1,32 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* simplify_checkout_arg
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Language: es_AR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#. module: simplify_checkout_arg
+#: model_terms:ir.ui.view,arch_db:simplify_checkout_arg.simplify_address_defaults
+msgid "Country..."
+msgstr "País..."
+
+#. module: simplify_checkout_arg
+#: model_terms:ir.ui.view,arch_db:simplify_checkout_arg.simplify_address_defaults
+msgid "State / Province"
+msgstr "Provincia"
+
+#. module: simplify_checkout_arg
+#: model_terms:ir.ui.view,arch_db:simplify_checkout_arg.simplify_address_defaults
+msgid "State / Province..."
+msgstr "Provincia..."
+
+#. module: simplify_checkout_arg
+#: code:addons/simplify_checkout_arg/controllers/main.py:0
+msgid "Some required fields are empty."
+msgstr "Faltan completar campos obligatorios."

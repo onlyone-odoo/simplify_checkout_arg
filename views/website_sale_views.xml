@@ -13,31 +13,34 @@
     </template>
     <!-- Inherit address template (website_sale.address): set defaults, hide all except name/email/phone -->
     <template id="simplify_address_defaults" inherit_id="website_sale.address">
-        <!-- Set default country as Argentina (ID: 10) - replace options to avoid duplicates and set selected -->
+        <!-- Default country is Argentina when the partner has none. Keep a saved country. -->
         <xpath expr="//select[@name='country_id']" position="replace">
+            <t t-set="sc_country" t-value="country or env.ref('base.ar').sudo()"/>
             <select id="o_country_id" name="country_id" class="form-select">
                 <option value="">Country...</option>
-                <t t-set="default_country_id" t-value="10"/>
-                <t t-set="selected_country" t-value="(checkout and 'country_id' in checkout and checkout['country_id']) or default_country_id"/>
                 <t t-foreach="countries" t-as="c">
-                    <option t-att-value="c.id" t-att-selected="c.id == selected_country" t-att-code="c.code">
+                    <option t-att-value="c.id" t-att-selected="c.id == sc_country.id" t-att-code="c.code">
                         <t t-esc="c.name"/>
                     </option>
                 </t>
             </select>
         </xpath>
-        <!-- Set default state as Buenos Aires (ID: 554) - replace options to avoid duplicates and set selected -->
-        <xpath expr="//select[@name='state_id']" position="replace">
-            <select id="o_state_id" name="state_id" class="form-select">
-                <option value="">State / Province...</option>
-                <t t-set="default_state_id" t-value="554"/>
-                <t t-set="selected_state" t-value="(checkout and 'state_id' in checkout and checkout['state_id']) or default_state_id"/>
-                <t t-foreach="country_states" t-as="s">
-                    <option t-att-value="s.id" t-att-selected="s.id == selected_state">
-                        <t t-esc="s.name"/>
-                    </option>
-                </t>
-            </select>
+        <!-- Buenos Aires by xmlid when Argentina has no saved state. Do not pick by position. -->
+        <xpath expr="//div[@id='div_state']" position="replace">
+            <t t-set="sc_states" t-value="sc_country.sudo().state_ids"/>
+            <t t-set="sc_ba" t-value="env.ref('base.state_ar_b', False).sudo()"/>
+            <t t-set="sc_state_id" t-value="state_id or (sc_country.code == 'AR' and sc_ba and sc_ba.id) or False"/>
+            <div id="div_state" class="col-lg-6 mb-2" t-att-style="not sc_states and 'display: none'">
+                <label class="col-form-label" for="o_state_id">State / Province</label>
+                <select id="o_state_id" name="state_id" class="form-select">
+                    <option value="">State / Province...</option>
+                    <t t-foreach="sc_states" t-as="s">
+                        <option t-att-value="s.id" t-att-selected="s.id == sc_state_id" t-att-data-code="s.code">
+                            <t t-esc="s.name"/>
+                        </option>
+                    </t>
+                </select>
+            </div>
         </xpath>
         <!-- Hide company_name (if B2B) -->
         <xpath expr="//div[@id='company_name_div']" position="attributes">

@@ -8,12 +8,17 @@
     "data": [
         "views/website_sale_views.xml",
     ],
+    "assets": {
+        "web.assets_frontend": [
+            "simplify_checkout_arg/static/src/js/address_default_state.js",
+        ],
+    },
     "author": "Be OnlyOne",
     "maintainers": ["onlyone-odoo"],
     "website": "https://onlyone.odoo.com/",
     "license": "AGPL-3",
     "category": "Technical Settings",
-    "version": "18.0.1.1.1",
+    "version": "18.0.1.2.0",
     "development_status": "Production/Stable",
     "application": False,
     "installable": True,
